@@ -1,0 +1,57 @@
+.list {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+
+.list__Name {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 50px;
+}
+.list__edit {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 50px;
+}
+
+.list__edit {
+	display: flex;
+	flex-direction: row;
+}
+
+.deleteButton {
+	margin-left: 5px;
+	height: 40px;
+	width: 60px;
+	border: none;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	text-align: center;
+	outline: none;
+	background-color: #d63031;
+	color: #fff;
+	cursor: pointer;
+}
+
+.deleteButton:hover {
+	background-color: #c62828;
+}
+
+.edit,
+.delete {
+	margin-top: 10px;
+}
+
+li {
+	margin-left: 10px;
+}

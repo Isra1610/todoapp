@@ -1,0 +1,26 @@
+.filters {
+	margin: 0 auto;
+	width: 450px;
+	display: flex;
+	align-items: center;
+}
+
+.filter__button {
+	width: 33.33%;
+	height: 40px;
+	border: none;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 8px;
+	margin: 10px 8px 0 15px;
+	margin-bottom: 10px;
+	text-align: center;
+	outline: none;
+	background-color: #00bcd4;
+	color: #fff;
+	cursor: pointer;
+}
+
+.filter__button:hover {
+	background-color: #00a5b5;
+}
