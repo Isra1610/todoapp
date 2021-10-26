@@ -3,17 +3,14 @@ import "../styles/ToDoFilters.css";
 
 const ToDoFilters = ({ allTasks, activeTasks, completedTasks }) => {
 	const handleAllTasks = () => {
-		console.log("clicked");
 		allTasks();
 	};
 
 	const handleActiveTasks = () => {
-		console.log("clicked");
 		activeTasks();
 	};
 
 	const handleCompletedTasks = () => {
-		console.log("clicked");
 		completedTasks();
 	};
 

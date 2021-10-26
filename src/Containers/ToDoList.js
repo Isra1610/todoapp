@@ -29,6 +29,7 @@ const ToDoList = () => {
 	};
 
 	const updateTask = (index, task) => {
+		console.log("clicked");
 		const tempList = [...taskList];
 		tempList[index] = task;
 		localStorage.setItem("taskList", JSON.stringify(tempList));
@@ -66,7 +67,7 @@ const ToDoList = () => {
 					taskList.map((task, index) => (
 						<ToDos
 							taskObj={task}
-							id={index}
+							index={index}
 							deleteTask={deleteTask}
 							updateTask={updateTask}
 							key={task}

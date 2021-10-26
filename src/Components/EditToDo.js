@@ -4,21 +4,16 @@ import "../styles/EditButton.css";
 const EditToDo = ({ updateTask, taskObj, index }) => {
 	const [toDoName, setToDoName] = useState("");
 
-	/* const handleChange = (e) => {
-		const { value } = e.target;
-		console.log(value);
-		setToDoName(value);
-	}; */
-
-	const handleEdit = () => {
-		let toDo = {};
-		toDo = toDoName;
-		updateTask(toDo, index);
-	};
-
 	useEffect(() => {
 		setToDoName(taskObj);
-	}, [taskObj]);
+	}, []);
+
+	const handleEdit = () => {
+		let newTask = prompt("new to do name");
+		if (newTask) {
+			updateTask(newTask, index);
+		}
+	};
 
 	return (
 		<button className="editButton" onClick={handleEdit}>
