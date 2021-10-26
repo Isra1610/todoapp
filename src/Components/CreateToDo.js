@@ -13,6 +13,7 @@ const CreateToDo = ({ add }) => {
 		let toDo = {};
 		toDo = toDoName;
 		add(toDo);
+		setToDoName("");
 	};
 
 	return (

@@ -3,22 +3,40 @@ import { useState } from "react";
 import CreateToDo from "../Components/CreateToDo";
 import ToDos from "../Components/ToDos";
 import ToDoFilters from "../Components/ToDoFilters";
+import { v4 } from "uuid";
 
 import "../styles/ToDoList.css";
 
 const ToDoList = () => {
 	const [taskList, setTaskList] = useState([]);
 
+	//-------FilterState-------
+
+	const [filter, setFilter] = useState([
+		{
+			id: "",
+			checked: false,
+		},
+	]);
+
+	//------LocalStorage------
+
 	useEffect(() => {
 		const taskList = JSON.parse(localStorage.getItem("taskList"));
 		setTaskList(taskList);
 	}, []);
 
+	//-------CRUD--------
+
 	const addTask = (task) => {
-		const tempTaskList = [...taskList];
-		tempTaskList.push(task);
-		localStorage.setItem("taskList", JSON.stringify(tempTaskList));
-		setTaskList(tempTaskList);
+		if (taskList.find(() => taskList === task)) {
+			const tempTaskList = [...taskList];
+			tempTaskList.push(task);
+			localStorage.setItem("taskList", JSON.stringify(tempTaskList));
+			setTaskList(tempTaskList);
+		} else {
+			alert("Task already exists");
+		}
 	};
 
 	const deleteTask = (index) => {
@@ -28,12 +46,15 @@ const ToDoList = () => {
 		setTaskList(tempList);
 	};
 
-	const updateTask = (index, task) => {
-		console.log("clicked");
-		const tempList = [...taskList];
-		tempList[index] = task;
-		localStorage.setItem("taskList", JSON.stringify(tempList));
-		setTaskList(tempList);
+	const updateTask = (task, index) => {
+		if (taskList.find(() => taskList === task)) {
+			const tempList = [...taskList];
+			tempList[index] = task;
+			localStorage.setItem("taskList", JSON.stringify(tempList));
+			setTaskList(tempList);
+		} else {
+			alert("Task already exists");
+		}
 	};
 
 	const deleteAll = () => {
@@ -41,12 +62,18 @@ const ToDoList = () => {
 		setTaskList([]);
 	};
 
+	//-------Filters--------
+
+	const filterTasks = (check) => {
+		setFilter([...filter, { id: v4, checked: check }]);
+	};
+
 	const allTasks = () => {
 		return taskList;
 	};
 
 	const activeTasks = () => {
-		return taskList.filter((task) => task.checked === false);
+		return taskList.filter((task) => !task.checked);
 	};
 
 	const completedTasks = () => {
@@ -57,6 +84,7 @@ const ToDoList = () => {
 		<div className="ToDoContainer">
 			<CreateToDo add={addTask} />
 			<ToDoFilters
+				filterTasks={filterTasks}
 				allTasks={allTasks}
 				activeTasks={activeTasks}
 				completedTasks={completedTasks}
