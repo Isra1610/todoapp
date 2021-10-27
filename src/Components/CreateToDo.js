@@ -10,9 +10,7 @@ const CreateToDo = ({ add }) => {
 	};
 
 	const handleSave = () => {
-		let toDo = {};
-		toDo = toDoName;
-		add(toDo);
+		add(toDoName);
 		setToDoName("");
 	};
 

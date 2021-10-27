@@ -2,16 +2,7 @@ import React from "react";
 import "../styles/ToDos.css";
 import "../styles/EditButton.css";
 
-const ToDos = ({
-	taskObj,
-	index,
-	deleteTask,
-	updateTask /* filterTasks */,
-}) => {
-	/* const handleChecked = (e) => {
-		filterTasks(e.target.checked);
-	}; */
-
+const ToDos = ({ taskObj, index, deleteTask, updateTask, toggleTask }) => {
 	const handleDetele = () => {
 		deleteTask(index);
 	};
@@ -22,13 +13,14 @@ const ToDos = ({
 	};
 
 	return (
-		<div className="list">
+		<div className="list" key={taskObj.name}>
 			<div className="list__Name">
 				<input
 					type="checkbox"
-					/* onChange={handleChecked} */ className="check"
+					checked={taskObj.done}
+					onChange={() => toggleTask(taskObj)}
 				/>
-				<li>{taskObj}</li>
+				<li>{taskObj.name}</li>
 			</div>
 			<div className="list__edit">
 				<div className="edit">

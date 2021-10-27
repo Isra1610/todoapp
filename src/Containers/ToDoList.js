@@ -1,39 +1,46 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import CreateToDo from "../Components/CreateToDo";
 import ToDos from "../Components/ToDos";
 import ToDoFilters from "../Components/ToDoFilters";
-import { v4 } from "uuid";
 
 import "../styles/ToDoList.css";
 
 const ToDoList = () => {
-	const [taskList, setTaskList] = useState([]);
-
-	//-------FilterState-------
-
-	const [filter, setFilter] = useState([
+	const [taskList, setTaskList] = useState([
 		{
-			id: "",
-			checked: false,
+			name: "tarea 1",
+			done: false,
+		},
+		{
+			name: "tarea 2",
+			done: false,
+		},
+		{
+			name: "tarea 3",
+			done: false,
+		},
+		{
+			name: "tarea 4",
+			done: false,
 		},
 	]);
 
-	//------LocalStorage------
+	//-----toggleTask------
 
-	useEffect(() => {
-		const taskList = JSON.parse(localStorage.getItem("taskList"));
-		setTaskList(taskList);
-	}, []);
+	const toggleTask = (task) => {
+		setTaskList(
+			taskList.map((item) =>
+				item.name === task.name ? { ...item, done: !item.done } : item
+			)
+		);
+	};
 
 	//-------CRUD--------
 
-	const addTask = (task) => {
-		if (taskList.find(() => taskList === task)) {
-			const tempTaskList = [...taskList];
-			tempTaskList.push(task);
-			localStorage.setItem("taskList", JSON.stringify(tempTaskList));
-			setTaskList(tempTaskList);
+	const addTask = (taskName) => {
+		if (!taskList.find((task) => task.name === taskName)) {
+			setTaskList([...taskList, { name: taskName, done: false }]);
 		} else {
 			alert("Task already exists");
 		}
@@ -42,15 +49,13 @@ const ToDoList = () => {
 	const deleteTask = (index) => {
 		const tempList = [...taskList];
 		tempList.splice(index, 1);
-		localStorage.setItem("taskList", JSON.stringify(tempList));
 		setTaskList(tempList);
 	};
 
-	const updateTask = (task, index) => {
-		if (taskList.find(() => taskList === task)) {
+	const updateTask = (taskName, index) => {
+		if (!taskList.find((task) => task.name === taskName)) {
 			const tempList = [...taskList];
-			tempList[index] = task;
-			localStorage.setItem("taskList", JSON.stringify(tempList));
+			tempList[index].name = taskName;
 			setTaskList(tempList);
 		} else {
 			alert("Task already exists");
@@ -64,44 +69,64 @@ const ToDoList = () => {
 
 	//-------Filters--------
 
-	const filterTasks = (check) => {
-		setFilter([...filter, { id: v4, checked: check }]);
+	const [flag, setFlag] = useState("");
+
+	const allTasks = (click) => {
+		setFlag(click);
 	};
 
-	const allTasks = () => {
-		return taskList;
+	const activeTasks = (click) => {
+		setFlag(click);
 	};
 
-	const activeTasks = () => {
-		return taskList.filter((task) => !task.checked);
+	const completedTasks = (click) => {
+		setFlag(click);
 	};
 
-	const completedTasks = () => {
-		return taskList.filter((task) => task.checked);
+	console.log(flag);
+
+	//-------Maping--------
+
+	const toDoLists = (doneValue) => {
+		if (flag === "") {
+			return taskList.map((task, index) => (
+				<ToDos
+					toggleTask={toggleTask}
+					taskObj={task}
+					index={index}
+					deleteTask={deleteTask}
+					updateTask={updateTask}
+				/>
+			));
+		} else {
+			return taskList
+				.filter((task) => task.done === doneValue)
+				.map((task, index) => (
+					<ToDos
+						toggleTask={toggleTask}
+						taskObj={task}
+						index={index}
+						deleteTask={deleteTask}
+						updateTask={updateTask}
+					/>
+				));
+		}
 	};
+
+	console.log(flag);
 
 	return (
 		<div className="ToDoContainer">
 			<CreateToDo add={addTask} />
 			<ToDoFilters
-				filterTasks={filterTasks}
 				allTasks={allTasks}
 				activeTasks={activeTasks}
 				completedTasks={completedTasks}
 			/>
-			<h2 className="taskRemaining">{taskList.length} tasks remaining</h2>
-			<h2 className="listContainer">
-				{taskList &&
-					taskList.map((task, index) => (
-						<ToDos
-							taskObj={task}
-							index={index}
-							deleteTask={deleteTask}
-							updateTask={updateTask}
-							key={task}
-						/>
-					))}
+			<h2 className="taskRemaining">
+				{taskList.filter((t) => !t.done).length} tasks remaining
 			</h2>
+			<h2 className="listContainer">{taskList && toDoLists(flag)}</h2>
 			<button onClick={deleteAll} className="deleteAll">
 				Delete all Tasks
 			</button>

@@ -3,15 +3,18 @@ import "../styles/ToDoFilters.css";
 
 const ToDoFilters = ({ allTasks, activeTasks, completedTasks }) => {
 	const handleAllTasks = () => {
-		allTasks();
+		let click = "";
+		allTasks(click);
 	};
 
 	const handleActiveTasks = () => {
-		activeTasks();
+		let click = false;
+		activeTasks(click);
 	};
 
 	const handleCompletedTasks = () => {
-		completedTasks();
+		let click = true;
+		completedTasks(click);
 	};
 
 	return (
